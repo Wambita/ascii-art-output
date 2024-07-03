@@ -14,7 +14,6 @@ func Normal(input string, asciiMap map[rune][]string) string {
 			for _, char := range input {
 				lineOutput += asciiMap[char][i]
 			}
-			fmt.Println(lineOutput)
 			result += lineOutput + "\n"
 		}
 	}
