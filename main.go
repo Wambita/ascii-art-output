@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -17,11 +16,9 @@ import (
 func main() {
 	args := os.Args[1:]
 	bannerfile, flag, input := utils.ValidateArgs(args)
-	fmt.Println(flag)
 	if validInput, offendingCharacter := utils.IsValidInput(input); !validInput {
 		log.Fatalf("Error: input contains unallowed character: %q\n", offendingCharacter)
 	}
-	// filename, _ := utils.CheckFlag(input)
 
 	asciiMap := utils.CreateMap(bannerfile)
 	if asciiMap == nil {
