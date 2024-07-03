@@ -1,16 +1,17 @@
-# Ascii Art Justify
+# Ascii Art Output
 
 ## Description
 
-This project is an extension of a previous project going by a similar name. The initial project, ascii-art, was a project that was used to print text data in an artistic format. In it, there were a few files we referred to as banner files that contained graphic representations of printable ascii characters. When the user needed to print their data on the console, the program would instead print the graphic representation of the same. 
+The initial project, ascii-art, was a project that was used to print text data in an artistic format. The follow-up project provided the user with an option to pick a font file to be used to display their characters. This proect was known as ascii-art-fs. There were a few font files, which we referred to as banner files. This files contained graphic representations of printable ascii characters. When the user needed to print their data on the console, the program would instead print the graphic representation of the same. 
 
-This project is an extension by the virtue that it offers the user the ability to use an optional flag when invoking the program. This flag is then used to decide how the text would appear in the console. The new concepts introduced is outputment. The user now has the option to request the text to be outputed in a particular way.
+This project is an extension by the virtue that it offers the user the ability to use an optional flag when invoking the program. This flag is then used to decide where the artistic representation will be saved. The new concepts introduced is output files. The user now has the option to save the results within a .txt file.
 
 
 ## Features
 - Converts strings into ASCII art representations.
 - Supports multiple banner formats including `shadow`, `standard`, and `thinkertoy`.
-- Support for outputing the graphic representation on the terminal
+- Support for saving the graphic representation inside a file
+- if a file is not provided, the program defaults to printing the results in the console
 
 
 #### Limitations
@@ -23,7 +24,7 @@ This project is an extension by the virtue that it offers the user the ability t
 
 #### Banner files [BANNER]
 
-The project also allows the user to include the banner file name that they need to be used to display the art. Currently we only accept three banner files which are: 
+The mentioned project, ascii-art-fs only accepted three banner files. We will stick to tha same banner files which include: 
 
   + [`shadow`](https://learn.zone01kisumu.ke/git/root/public/src/branch/master/subjects/ascii-art/shadow.txt)
   + [`standard`](https://learn.zone01kisumu.ke/git/root/public/src/branch/master/subjects/ascii-art/standard.txt)
@@ -31,40 +32,33 @@ The project also allows the user to include the banner file name that they need 
 
 
 
-#### outputment [OPTION]
+#### --output optional argument [OPTION]
 
- These include and limited to:
-
-**NOTE: The example are not to be taken literary, but as a rough estimate of how the text should appear**
-
-+ left
-+ right
-+ center
-+ justify
-
-A random example is the outputment: center
+When a user runs a program while following the strict guidelines under the usage section. Suppose that they provided a --output=temp.txt, an output similar to this will be saved within the provided file.
 
 ```bash
 
-                                                   _              _   _          
-                                                  | |            | | | |         
-                                                  | |__     ___  | | | |   ___   
-                                                  |  _ \   / _ \ | | | |  / _ \  
-                                                  | | | | |  __/ | | | | | (_) | 
-                                                  |_| |_|  \___| |_| |_|  \___/  
+   _              _   _          
+  | |            | | | |         
+  | |__     ___  | | | |   ___   
+  |  _ \   / _ \ | | | |  / _ \  
+  | | | | |  __/ | | | | | (_) | 
+  |_| |_|  \___| |_| |_|  \___/  
                                                                                  
                                                                                  
 
 ```
 
+It should not go without mentioning that one can not provide a filename that already exists within the system; specifically not the banner files as a file to save the output in.
+
 
 ## Usage
 
-The format has to be (replace the square bracket with the specific requirement): 
+The format: (replace the square bracket with the specific requirement): 
 
 go run . [OPTION] [STRING] [BANNER]
 
-**OPTION** allows you to specify the textual outputment
+**OPTION** allows you to specify the file where your art will be saved
 
 **STRING** is the actual string whose representation will be printed
 
@@ -79,20 +73,20 @@ The following is an example of how to do so:
 ##### installation
 
 ```bash
-git clone https://learn.zone01kisumu.ke/git/bnyatoro/ascii-art-justify.git
-cd ascii-art-justify
+git clone https://learn.zone01kisumu.ke/git/shfana/ascii-art-output.git
+cd ascii-art-output
 clear
 ```
 ##### run the program
 
 ```bash
-go run . --output=left "Hello"
+go run . --output=test.txt "Hello"
 ```
 
 Additionally, to switch between banner files, you can provide an additional argument which has to be the last argument
 
 ```bash
-go run . --output=center "Hello" "shadow"
+go run . --output=test.txt "Hello" "shadow"
 ```
 
 
@@ -107,6 +101,6 @@ go run . --output=center "Hello" "shadow"
 #### To contribute
 
 Go to the repository at
-[ascii-art-justify](https://learn.zone01kisumu.ke/git/bnyatoro/ascii-art-justify) and fork the repository. Clone your fork locally and make any changes you need to be made. After completing all git processes and pusing to your fork, you can issue a pull request and we assure you that your contributions wiil be taken into consideration.
+[ascii-art-output](https://learn.zone01kisumu.ke/git/shfana/ascii-art-output.git) and fork the repository. Clone your fork locally and make any changes you need to be made. After completing all git processes and pusing to your fork, you can issue a pull request and we assure you that your contributions wiil be taken into consideration.
 
 
