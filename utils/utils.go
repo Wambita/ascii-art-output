@@ -60,7 +60,12 @@ func CheckFlag(input string) (string, bool) {
 		if !(strings.HasSuffix(filename, ".txt") && len(filename) >= 5) {
 			PrintErrorAndExit()
 		} else {
-			return filename, true
+			// avoid altering the banner files
+			if filename == "standard.txt" || filename == "shadow.txt" || filename == "thinkertoy.txt" {
+				PrintErrorAndExit()
+			} else {
+				return filename, true
+			}
 		}
 	}
 	return "", false
