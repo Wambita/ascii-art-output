@@ -56,7 +56,7 @@ func ValidateArgs(args []string) (string, string, string) {
 // function to check if correct flag is passed
 func CheckFlag(input string) (string, bool) {
 	if strings.HasPrefix(input, "--output=") {
-		filename := strings.TrimPrefix(input, "--align=")
+		filename := strings.TrimPrefix(input, "--output=")
 		if !(strings.HasSuffix(filename, ".txt") && len(filename) >= 5) {
 			PrintErrorAndExit()
 		} else {

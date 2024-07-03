@@ -1,0 +1,4 @@
+*.txt
+!standard.txt
+!shadow.txt
+!thinkertoy.txt

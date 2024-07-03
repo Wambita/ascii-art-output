@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	printArt "ascii-art-justify/print"
 	"ascii-art-justify/utils"
 )
 
@@ -20,6 +21,7 @@ func main() {
 	if validInput, offendingCharacter := utils.IsValidInput(input); !validInput {
 		log.Fatalf("Error: input contains unallowed character: %q\n", offendingCharacter)
 	}
+	// filename, _ := utils.CheckFlag(input)
 
 	asciiMap := utils.CreateMap(bannerfile)
 	if asciiMap == nil {
@@ -27,8 +29,10 @@ func main() {
 	}
 	data := strings.ReplaceAll(input, "\\n", "\n")
 	words := strings.Split(data, "\n")
-
+	finalresult := ""
 	for _, word := range words {
-		fmt.Println(word)
+		result := printArt.Normal(word, asciiMap)
+		finalresult += result
 	}
+	utils.WriteToFile(flag, finalresult)
 }
