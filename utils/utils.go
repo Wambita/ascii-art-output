@@ -13,7 +13,7 @@ func ValidateArgs(args []string) (string, string, string) {
 	var flag string
 	bannerfile := "standard"
 
-	// usage: go run . --align=right something standard
+	// usage: go run . --output=right something standard
 	if len(args) == 3 {
 		if flag, shouldSave = CheckFlag(args[0]); shouldSave {
 			userInput = args[1]
@@ -22,7 +22,7 @@ func ValidateArgs(args []string) (string, string, string) {
 			PrintErrorAndExit()
 		}
 
-		// usage: go run . --align=right something
+		// usage: go run . --output=right something
 	} else if len(args) == 2 {
 		if flag, shouldSave = CheckFlag(args[0]); shouldSave {
 			userInput = args[1]

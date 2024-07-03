@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -12,7 +13,7 @@ import (
 // fetch the command line arguments,
 // validate the arguments and get filepath for the banner file,
 // create map from banner file,
-// align content accordingly and display results to user
+// output content accordingly and display results to user
 func main() {
 	args := os.Args[1:]
 	bannerfile, flag, input := utils.ValidateArgs(args)
@@ -31,5 +32,11 @@ func main() {
 		result := printArt.Normal(word, asciiMap)
 		finalresult += result
 	}
-	utils.WriteToFile(flag, finalresult)
+
+	_, hasOutputFile := utils.CheckFlag(args[0])
+	if hasOutputFile {
+		utils.WriteToFile(flag, finalresult)
+	} else {
+		fmt.Println(finalresult)
+	}
 }

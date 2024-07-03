@@ -4,13 +4,13 @@
 
 This project is an extension of a previous project going by a similar name. The initial project, ascii-art, was a project that was used to print text data in an artistic format. In it, there were a few files we referred to as banner files that contained graphic representations of printable ascii characters. When the user needed to print their data on the console, the program would instead print the graphic representation of the same. 
 
-This project is an extension by the virtue that it offers the user the ability to use an optional flag when invoking the program. This flag is then used to decide how the text would appear in the console. The new concepts introduced is alignment. The user now has the option to request the text to be aligned in a particular way.
+This project is an extension by the virtue that it offers the user the ability to use an optional flag when invoking the program. This flag is then used to decide how the text would appear in the console. The new concepts introduced is outputment. The user now has the option to request the text to be outputed in a particular way.
 
 
 ## Features
 - Converts strings into ASCII art representations.
 - Supports multiple banner formats including `shadow`, `standard`, and `thinkertoy`.
-- Support for aligning the graphic representation on the terminal
+- Support for outputing the graphic representation on the terminal
 
 
 #### Limitations
@@ -31,7 +31,7 @@ The project also allows the user to include the banner file name that they need 
 
 
 
-#### Alignment [OPTION]
+#### outputment [OPTION]
 
  These include and limited to:
 
@@ -42,7 +42,7 @@ The project also allows the user to include the banner file name that they need 
 + center
 + justify
 
-A random example is the alignment: center
+A random example is the outputment: center
 
 ```bash
 
@@ -64,7 +64,7 @@ The format has to be (replace the square bracket with the specific requirement):
 
 go run . [OPTION] [STRING] [BANNER]
 
-**OPTION** allows you to specify the textual alignment
+**OPTION** allows you to specify the textual outputment
 
 **STRING** is the actual string whose representation will be printed
 
@@ -86,13 +86,13 @@ clear
 ##### run the program
 
 ```bash
-go run . --align=left "Hello"
+go run . --output=left "Hello"
 ```
 
 Additionally, to switch between banner files, you can provide an additional argument which has to be the last argument
 
 ```bash
-go run . --align=center "Hello" "shadow"
+go run . --output=center "Hello" "shadow"
 ```
 
 

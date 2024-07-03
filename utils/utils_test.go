@@ -37,7 +37,7 @@ func Test_IsValidInput(t *testing.T) {
 			want:  true,
 			wantErr: `Usage: go run . [OPTION] [STRING] [BANNER]
 
-			Example: go run . --align=right something standard`,
+			Example: go run . --output=right something standard`,
 		},
 		{
 			name:    "String with only unsupported characters",
@@ -136,14 +136,14 @@ func Test_ValidateArgs(t *testing.T) {
 	}{
 		{
 			name:          "Valid case with all arguments",
-			args:          []string{"--align=justify", "Hello world", "shadow"},
+			args:          []string{"--output=justify", "Hello world", "shadow"},
 			expectedFile:  "shadow",
 			expectedFlag:  "justify",
 			expectedInput: "Hello world",
 		},
 		{
 			name:          "Valid case with flag and userInput",
-			args:          []string{"--align=right", "Hello World"},
+			args:          []string{"--output=right", "Hello World"},
 			expectedFile:  "standard",
 			expectedFlag:  "right",
 			expectedInput: "Hello World",
@@ -179,7 +179,7 @@ func Test_ValidateArgs(t *testing.T) {
 	}
 }
 
-// test to check flags for alignment flag
+// test to check flags for outputment flag
 func Test_CheckFlag(t *testing.T) {
 	tests := []struct {
 		name       string
@@ -189,29 +189,29 @@ func Test_CheckFlag(t *testing.T) {
 		wantErr    bool
 	}{
 		{
-			name:       "Valid left alignment flag",
-			flagString: "--align=left",
+			name:       "Valid left outputment flag",
+			flagString: "--output=left",
 			want:       "left",
 			want1:      true,
 			wantErr:    false,
 		},
 		{
-			name:       "Valid right alignment flag",
-			flagString: "--align=right",
+			name:       "Valid right outputment flag",
+			flagString: "--output=right",
 			want:       "right",
 			want1:      true,
 			wantErr:    false,
 		},
 		{
-			name:       "Valid justify alignment flag",
-			flagString: "--align=justify",
+			name:       "Valid justify outputment flag",
+			flagString: "--output=justify",
 			want:       "justify",
 			want1:      true,
 			wantErr:    false,
 		},
 		{
-			name:       "Valid center alignment flag",
-			flagString: "--align=center",
+			name:       "Valid center outputment flag",
+			flagString: "--output=center",
 			want:       "center",
 			want1:      true,
 			wantErr:    false,
