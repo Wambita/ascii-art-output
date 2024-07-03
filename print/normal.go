@@ -1,13 +1,9 @@
 package printArt
 
-import (
-	"fmt"
-)
-
 func Normal(input string, asciiMap map[rune][]string) string {
 	result := ""
 	if input == "" {
-		fmt.Println()
+		result += "\n"
 	} else {
 		for i := 0; i < 8; i++ {
 			lineOutput := ""
