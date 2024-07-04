@@ -81,12 +81,14 @@ clear
 
 ```bash
 go run . --output=test.txt "Hello"
+cat -e test.txt
 ```
 
 Additionally, to switch between banner files, you can provide an additional argument which has to be the last argument
 
 ```bash
 go run . --output=test.txt "Hello" "shadow"
+cat -e test.txt
 ```
 
 
