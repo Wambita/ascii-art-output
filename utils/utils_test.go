@@ -126,106 +126,108 @@ func Test_ValidBanner(t *testing.T) {
 }
 
 // test for valid arguments depending on the length of arguments
-func Test_ValidateArgs(t *testing.T) {
-	tests := []struct {
-		name          string
-		args          []string
-		expectedFile  string
-		expectedFlag  string
-		expectedInput string
-	}{
-		{
-			name:          "Valid case with all arguments",
-			args:          []string{"--output=justify", "Hello world", "shadow"},
-			expectedFile:  "shadow",
-			expectedFlag:  "justify",
-			expectedInput: "Hello world",
-		},
-		{
-			name:          "Valid case with flag and userInput",
-			args:          []string{"--output=right", "Hello World"},
-			expectedFile:  "standard",
-			expectedFlag:  "right",
-			expectedInput: "Hello World",
-		},
-		{
-			name:          "Valid case with userInput and bannerfile",
-			args:          []string{"Hello World", "shadow"},
-			expectedFile:  "shadow",
-			expectedFlag:  "",
-			expectedInput: "Hello World",
-		},
-		{
-			name:          "Valid case with only userInput",
-			args:          []string{"user_input"},
-			expectedFile:  "standard",
-			expectedFlag:  "",
-			expectedInput: "user_input",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got1, got2 := ValidateArgs(tt.args)
-			if got != tt.expectedFile {
-				t.Errorf("ValidateArgs() got = %v, want %v", got, tt.expectedFile)
-			}
-			if got1 != tt.expectedFlag {
-				t.Errorf("ValidateArgs() got1 = %v, want %v", got1, tt.expectedFlag)
-			}
-			if got2 != tt.expectedInput {
-				t.Errorf("ValidateArgs() got2 = %v, want %v", got2, tt.expectedInput)
-			}
-		})
-	}
-}
+// func Test_ValidateArgs(t *testing.T) {
+// 	tests := []struct {
+// 		name          string
+// 		args          []string
+// 		expectedFile  string
+// 		expectedFlag  string
+// 		expectedInput string
+// 	}{
+// 		{
+// 			name:          "Valid case with all arguments",
+// 			args:          []string{"--output=justify", "Hello world", "shadow"},
+// 			expectedFile:  "shadow",
+// 			expectedFlag:  "justify",
+// 			expectedInput: "Hello world",
+// 		},
+// 		{
+// 			name:          "Valid case with flag and userInput",
+// 			args:          []string{"--output=right", "Hello World"},
+// 			expectedFile:  "standard",
+// 			expectedFlag:  "right",
+// 			expectedInput: "Hello World",
+// 		},
+// 		{
+// 			name:          "Valid case with userInput and bannerfile",
+// 			args:          []string{"Hello World", "shadow"},
+// 			expectedFile:  "shadow",
+// 			expectedFlag:  "",
+// 			expectedInput: "Hello World",
+// 		},
+// 		{
+// 			name:          "Valid case with only userInput",
+// 			args:          []string{"user_input"},
+// 			expectedFile:  "standard",
+// 			expectedFlag:  "",
+// 			expectedInput: "user_input",
+// 		},
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			got, got1, got2 := ValidateArgs(tt.args)
+// 			if got != tt.expectedFile {
+// 				t.Errorf("ValidateArgs() got = %v, want %v", got, tt.expectedFile)
+// 			}
+// 			if got1 != tt.expectedFlag {
+// 				t.Errorf("ValidateArgs() got1 = %v, want %v", got1, tt.expectedFlag)
+// 			}
+// 			if got2 != tt.expectedInput {
+// 				t.Errorf("ValidateArgs() got2 = %v, want %v", got2, tt.expectedInput)
+// 			}
+// 		})
+// 	}
+// }
 
-// test to check flags for outputment flag
-func Test_CheckFlag(t *testing.T) {
-	tests := []struct {
-		name       string
-		flagString string
-		want       string
-		want1      bool
-		wantErr    bool
-	}{
-		{
-			name:       "Valid left outputment flag",
-			flagString: "--output=left",
-			want:       "left",
-			want1:      true,
-			wantErr:    false,
-		},
-		{
-			name:       "Valid right outputment flag",
-			flagString: "--output=right",
-			want:       "right",
-			want1:      true,
-			wantErr:    false,
-		},
-		{
-			name:       "Valid justify outputment flag",
-			flagString: "--output=justify",
-			want:       "justify",
-			want1:      true,
-			wantErr:    false,
-		},
-		{
-			name:       "Valid center outputment flag",
-			flagString: "--output=center",
-			want:       "center",
-			want1:      true,
-			wantErr:    false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := CheckFlag(tt.flagString)
-			if got != tt.want {
-				t.Errorf("CheckFlag() got = %v, want %v", got, tt.want)
-			}
-			if got1 != tt.want1 {
-				t.Errorf("CheckFlag() got1 = %v, want %v", got1, tt.want1)
-			}
-		})
-	}
-}
+// // test to check flags for outputment flag
+// func Test_CheckFlag(t *testing.T) {
+// 	tests := []struct {
+// 		name       string
+// 		flagString string
+// 		want       string
+// 		want1      bool
+// 		wantErr    bool
+// 	}{
+// 		{
+// 			name:       "Valid left outputment flag",
+// 			flagString: "--output=left",
+// 			want:       "left",
+// 			want1:      true,
+// 			wantErr:    false,
+// 		},
+// 		{
+// 			name:       "Valid right outputment flag",
+// 			flagString: "--output=right",
+// 			want:       "right",
+// 			want1:      true,
+// 			wantErr:    false,
+// 		},
+// 		{
+// 			name:       "Valid justify outputment flag",
+// 			flagString: "--output=justify",
+// 			want:       "justify",
+// 			want1:      true,
+// 			wantErr:    false,
+// 		},
+// 		{
+// 			name:       "Valid center outputment flag",
+// 			flagString: "--output=center",
+// 			want:       "center",
+// 			want1:      true,
+// 			wantErr:    false,
+// 		},
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			got, got1 := CheckFlag(tt.flagString)
+// 			if got != tt.want {
+// 				t.Errorf("CheckFlag() got = %v, want %v", got, tt.want)
+// 			}
+// 			if got1 != tt.want1 {
+// 				t.Errorf("CheckFlag() got1 = %v, want %v", got1, tt.want1)
+// 			}
+// 		})
+// 	}
+// }
+
+

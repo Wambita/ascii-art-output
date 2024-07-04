@@ -18,28 +18,44 @@ import (
 * + output content accordingly and display results to user
  */
 func main() {
-	args := os.Args[1:]
-	bannerfile, flag, input := utils.ValidateArgs(args)
+	align, output, input, bannerfile := utils.CheckFlag()
+
 	if validInput, offendingCharacter := utils.IsValidInput(input); !validInput {
 		log.Fatalf("Error: input contains unallowed character: %q\n", offendingCharacter)
 	}
-
+	if bannerfile == "" {
+		bannerfile = "standard"
+	} else if !utils.ValidBanner(bannerfile) {
+		utils.PrintErrorAndExit()
+	}
 	asciiMap := utils.CreateMap(bannerfile)
 	if asciiMap == nil {
 		os.Exit(1)
 	}
+
 	data := strings.ReplaceAll(input, "\\n", "\n")
 	words := strings.Split(data, "\n")
 	finalresult := ""
+
 	for _, word := range words {
-		result := printArt.Normal(word, asciiMap)
+		var result string
+		switch align {
+		case "justify":
+			result = printArt.Justify(word, asciiMap)
+		case "center", "right":
+			result = printArt.Align(word, align, asciiMap)
+		default:
+			result = printArt.Normal(word, asciiMap)
+		}
 		finalresult += result
 	}
+	fmt.Print(finalresult)
 
-	_, hasOutputFile := utils.CheckFlag(args[0])
-	if hasOutputFile {
-		utils.WriteToFile(flag, finalresult)
+	fmt.Println(output)
+	
+	if output !="" {
+		utils.WriteToFile(output, finalresult)
 	} else {
-		fmt.Println(finalresult)
+		fmt.Print(finalresult)
 	}
 }

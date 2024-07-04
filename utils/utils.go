@@ -1,80 +1,58 @@
 package utils
 
 import (
+	"flag"
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
+	"strconv"
 	"strings"
 )
 
-/*
-* ValidateArgs: assigns arguments appropriately depending on length of os.Args
-*/
-func ValidateArgs(args []string) (string, string, string) {
-	var shouldSave bool
-	var userInput string
-	var flag string
-	bannerfile := "standard"
-
-	// usage: go run . --output=right something standard
-	if len(args) == 3 {
-		if flag, shouldSave = CheckFlag(args[0]); shouldSave {
-			userInput = args[1]
-			bannerfile = args[2]
-		} else {
-			PrintErrorAndExit()
-		}
-
-		// usage: go run . --output=right something
-	} else if len(args) == 2 {
-		if flag, shouldSave = CheckFlag(args[0]); shouldSave {
-			userInput = args[1]
-
-			// usage: go run . something standard
-		} else {
-			userInput = args[0]
-			if ValidBanner(args[1]) {
-				bannerfile = args[1]
-			} else {
-				PrintErrorAndExit()
-			}
-		}
-
-		// usage: go run . something
-	} else if len(args) == 1 {
-		userInput = args[0]
-		if strings.HasPrefix(userInput, "--output=") {
-			PrintErrorAndExit()
-		}
-	} else {
-		PrintErrorAndExit()
-	}
-
-	if len(userInput) == 0 {
-		PrintErrorAndExit()
-	}
-	return bannerfile, flag, userInput
-}
 
 /*
 * CheckFlag: check if the correct flag has been passed
  */
-func CheckFlag(input string) (string, bool) {
-	if strings.HasPrefix(input, "--output=") {
-		filename := strings.TrimPrefix(input, "--output=")
-		if !(strings.HasSuffix(filename, ".txt") && len(filename) >= 5) {
-			PrintErrorAndExit()
-		} else {
-			// avoid altering the banner files
-			if filename == "standard.txt" || filename == "shadow.txt" || filename == "thinkertoy.txt" {
-				PrintErrorAndExit()
-			} else {
-				return filename, true
-			}
-		}
-	}
-	return "", false
-}
 
+ func CheckFlag() (string, string, string, string) {
+    output := flag.String("output", "", "output file name")
+    align := flag.String("align", "", "text alignment (left, right, center, justify)")
+    
+    flag.Parse()
+    
+    args := flag.Args()
+    
+    // Check for correct number of arguments
+    if len(args) < 1 || len(args) > 2 {
+        PrintErrorAndExit()
+    }
+    
+    
+    text := args[0]
+    bannerfile := ""
+    if len(args) == 2 {
+        bannerfile = args[1]
+    }
+    
+    // Validate align if provided
+    if *align != "" && *align != "left" && *align != "right" && *align != "center" && *align != "justify" {
+        PrintErrorAndExit()
+    }
+    
+    // Validate output if provided
+    if *output != "" {
+        if !strings.HasSuffix(*output, ".txt") || len(*output) < 5 {
+            PrintErrorAndExit()
+        }
+        // Avoid altering the banner files
+        if *output == "standard.txt" || *output == "shadow.txt" || *output == "thinkertoy.txt" {
+            PrintErrorAndExit()
+        }
+    }
+    
+    return *align, *output, text, bannerfile
+}
 /*
 * PrintErrorAndExit: print and exit program due to usage error
 * Prints the error message as is required by the client.
@@ -89,16 +67,50 @@ EX: go run . --output=<fileName.txt> something standard
 	os.Exit(0)
 }
 
+// function to get the terminal width instead of using one fixed width
+func GetTerminalWidth() int {
+	cmd := exec.Command("stty", "size")
+	cmd.Stdin = os.Stdin
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	sizeString := string(output)
+	sizestring := strings.Split(sizeString, " ")
+
+	size, err := strconv.Atoi(strings.Trim(sizestring[1], "\n"))
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	return size
+}
+
+// function to get spaces to add for alignment depending on the alignment flag
+func GetSpaces(flag string, asciiString string) int {
+	terminalWidth := GetTerminalWidth()
+
+	spaces := 0
+	switch flag {
+	case "right":
+		spaces = terminalWidth - len(asciiString)
+	case "left":
+		spaces = 0
+	case "center":
+		spaces = (terminalWidth - len(asciiString)) / 2
+	}
+	return spaces
+}
+
 /*
 * ValidBanner: check if the correct banner filename has been passed
-*/
+ */
 func ValidBanner(banner string) bool {
 	return banner == "standard" || banner == "shadow" || banner == "thinkertoy"
 }
 
 /*
 * IsValidInput: check if the input string contains unprintable and unsupported characters that are not within the ascii printable range
- */ 
+ */
 func IsValidInput(input string) (bool, string) {
 	NonPrintableChars := []string{"\\a", "\\b", "\\t", "\\v", "\\f", "\\r", "\a", "\b", "\t", "\v", "\f", "\r"}
 	for _, char := range NonPrintableChars {
