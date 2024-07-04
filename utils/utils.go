@@ -6,7 +6,9 @@ import (
 	"strings"
 )
 
-// function to assign arguments appropriately depending on length of arguments
+/*
+* ValidateArgs: assigns arguments appropriately depending on length of os.Args
+*/
 func ValidateArgs(args []string) (string, string, string) {
 	var shouldSave bool
 	var userInput string
@@ -53,7 +55,9 @@ func ValidateArgs(args []string) (string, string, string) {
 	return bannerfile, flag, userInput
 }
 
-// function to check if correct flag is passed
+/*
+* CheckFlag: check if the correct flag has been passed
+ */
 func CheckFlag(input string) (string, bool) {
 	if strings.HasPrefix(input, "--output=") {
 		filename := strings.TrimPrefix(input, "--output=")
@@ -71,7 +75,11 @@ func CheckFlag(input string) (string, bool) {
 	return "", false
 }
 
-// function to print and exit program due to usage error
+/*
+* PrintErrorAndExit: print and exit program due to usage error
+* Prints the error message as is required by the client.
+* -[ DO not change the error message ]-
+ */
 func PrintErrorAndExit() {
 	fmt.Println(`
 Usage: go run . [OPTION] [STRING] [BANNER]
@@ -81,12 +89,16 @@ EX: go run . --output=<fileName.txt> something standard
 	os.Exit(0)
 }
 
-// function to check if the correct banner is passed
+/*
+* ValidBanner: check if the correct banner filename has been passed
+*/
 func ValidBanner(banner string) bool {
 	return banner == "standard" || banner == "shadow" || banner == "thinkertoy"
 }
 
-// function to check if input string contains unprintable and unsupported characters that are not within the ascii printable range
+/*
+* IsValidInput: check if the input string contains unprintable and unsupported characters that are not within the ascii printable range
+ */ 
 func IsValidInput(input string) (bool, string) {
 	NonPrintableChars := []string{"\\a", "\\b", "\\t", "\\v", "\\f", "\\r", "\a", "\b", "\t", "\v", "\f", "\r"}
 	for _, char := range NonPrintableChars {

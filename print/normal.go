@@ -1,5 +1,8 @@
 package printArt
 
+/*
+* Normal: Generates the artistic representation of the plaintext
+ */
 func Normal(input string, asciiMap map[rune][]string) string {
 	result := ""
 	if input == "" {

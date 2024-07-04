@@ -6,14 +6,17 @@ import (
 	"os"
 	"strings"
 
-	printArt "ascii-art-justify/print"
-	"ascii-art-justify/utils"
+	printArt "ascii-art-output/print"
+	"ascii-art-output/utils"
 )
 
-// fetch the command line arguments,
-// validate the arguments and get filepath for the banner file,
-// create map from banner file,
-// output content accordingly and display results to user
+/*
+* main: composes the different functionality into a workable solution
+* + fetch the command line arguments,
+* + validate the arguments and get filepath for the banner file,
+* + create map from banner file,
+* + output content accordingly and display results to user
+ */
 func main() {
 	args := os.Args[1:]
 	bannerfile, flag, input := utils.ValidateArgs(args)

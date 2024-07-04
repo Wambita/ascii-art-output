@@ -6,15 +6,12 @@ import (
 	"os"
 )
 
-// program to create a map of the 95 printable ascii characters to their art representation from a banner file
+/*
+* CreateMap: creates a mapping from the 95 printable ascii characters to their art representation from a banner file
+ */
 func CreateMap(filename string) map[rune][]string {
 	file, err := os.Open(filename + ".txt")
 	if err != nil {
-		// GetFile(bannerfile + ".txt")
-		// file, err = os.Open(filename + ".txt")
-		// if err != nil {
-		// 	fmt.Println("error: ", err)
-		// }
 		fmt.Printf("Error opening file %q\n", filename)
 		return nil
 	}
