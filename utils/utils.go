@@ -10,24 +10,39 @@ import (
 	"strings"
 )
 
+// implement io.Writer interface
+// will help us silence errors in flags
+// io.Writer must have a Write method
+type Errout struct {
+	Buffer []byte
+}
+func (e Errout) Write(b []byte) (int, error) {
+	//copy(e.Buffer,  b)
+	return 0, nil
+}
 
 /*
 * CheckFlag: check if the correct flag has been passed
  */
-
  func CheckFlag() (string, string, string, string) {
     output := flag.String("output", "", "output file name")
     align := flag.String("align", "", "text alignment (left, right, center, justify)")
     
+	// struct to act as an io.Writer
+	errout := Errout{}
+	flag.CommandLine.Usage = func() {
+		PrintErrorAndExit()
+	}
+	// silence flag errors
+	flag.CommandLine.SetOutput(errout)
+
     flag.Parse()
-    
     args := flag.Args()
     
     // Check for correct number of arguments
     if len(args) < 1 || len(args) > 2 {
         PrintErrorAndExit()
-    }
-    
+    } 
     
     text := args[0]
     bannerfile := ""
@@ -39,6 +54,26 @@ import (
     if *align != "" && *align != "left" && *align != "right" && *align != "center" && *align != "justify" {
         PrintErrorAndExit()
     }
+
+	// go run . --align=left hello
+	// go run . --output=any.txt hello
+	// => check if flag is '-align'
+	if len(os.Args) == 3 {
+		if (*align != "" && strings.HasPrefix(os.Args[1], "-align")) || (*output != "" && strings.HasPrefix(os.Args[1], "-output")) {
+			PrintErrorAndExit()
+		}
+	}
+
+	// go run . --align=left --output=any.txt hello [banner]
+	// go run . --output=any.txt --align=left hello [banner]
+	if len(os.Args) > 3 {
+		if (*align != "" && strings.HasPrefix(os.Args[1], "-align")) || (*output != "" && strings.HasPrefix(os.Args[2], "-output")) {
+			PrintErrorAndExit()
+		}
+		if (*output != "" && strings.HasPrefix(os.Args[1], "-output")) || (*align != "" && strings.HasPrefix(os.Args[2], "-align")) {
+			PrintErrorAndExit()
+		}
+	}
     
     // Validate output if provided
     if *output != "" {

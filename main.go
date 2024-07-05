@@ -49,9 +49,9 @@ func main() {
 		}
 		finalresult += result
 	}
-	fmt.Print(finalresult)
+	// fmt.Print(finalresult)
 
-	fmt.Println(output)
+	// fmt.Println(output)
 	
 	if output !="" {
 		utils.WriteToFile(output, finalresult)
