@@ -10,50 +10,41 @@ import (
 	"strings"
 )
 
-// implement io.Writer interface
-// will help us silence errors in flags
-// io.Writer must have a Write method
-type Errout struct {
-	Buffer []byte
-}
-func (e Errout) Write(b []byte) (int, error) {
-	//copy(e.Buffer,  b)
-	return 0, nil
-}
-
 /*
 * CheckFlag: check if the correct flag has been passed
  */
- func CheckFlag() (string, string, string, string) {
-    output := flag.String("output", "", "output file name")
-    align := flag.String("align", "", "text alignment (left, right, center, justify)")
-    
-	// struct to act as an io.Writer
-	errout := Errout{}
-	flag.CommandLine.Usage = func() {
+func CheckFlag() (string, string, string, string) {
+	output := flag.String("output", "", "output file name")
+	align := flag.String("align", "", "text alignment (left, right, center, justify)")
+
+	// silence flag errors
+	tmp := os.Stderr
+	os.Stderr = nil
+
+	flag.Usage = func() {
+		// PrintErrorAndExit()
+		fmt.Fprintf(os.Stdout , "\nUsage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n\n")
+		os.Exit(0)
+	}
+
+	flag.Parse()
+	args := flag.Args()
+
+	// Check for correct number of arguments
+	if len(args) < 1 || len(args) > 2 {
 		PrintErrorAndExit()
 	}
-	// silence flag errors
-	flag.CommandLine.SetOutput(errout)
 
-    flag.Parse()
-    args := flag.Args()
-    
-    // Check for correct number of arguments
-    if len(args) < 1 || len(args) > 2 {
-        PrintErrorAndExit()
-    } 
-    
-    text := args[0]
-    bannerfile := ""
-    if len(args) == 2 {
-        bannerfile = args[1]
-    }
-    
-    // Validate align if provided
-    if *align != "" && *align != "left" && *align != "right" && *align != "center" && *align != "justify" {
-        PrintErrorAndExit()
-    }
+	text := args[0]
+	bannerfile := ""
+	if len(args) == 2 {
+		bannerfile = args[1]
+	}
+
+	// Validate align if provided
+	if *align != "" && *align != "left" && *align != "right" && *align != "center" && *align != "justify" {
+		PrintErrorAndExit()
+	}
 
 	// go run . --align=left hello
 	// go run . --output=any.txt hello
@@ -74,20 +65,21 @@ func (e Errout) Write(b []byte) (int, error) {
 			PrintErrorAndExit()
 		}
 	}
-    
-    // Validate output if provided
-    if *output != "" {
-        if !strings.HasSuffix(*output, ".txt") || len(*output) < 5 {
-            PrintErrorAndExit()
-        }
-        // Avoid altering the banner files
-        if *output == "standard.txt" || *output == "shadow.txt" || *output == "thinkertoy.txt" {
-            PrintErrorAndExit()
-        }
-    }
-    
-    return *align, *output, text, bannerfile
+
+	// Validate output if provided
+	if *output != "" {
+		if !strings.HasSuffix(*output, ".txt") || len(*output) < 5 {
+			PrintErrorAndExit()
+		}
+		// Avoid altering the banner files
+		if *output == "standard.txt" || *output == "shadow.txt" || *output == "thinkertoy.txt" {
+			PrintErrorAndExit()
+		}
+	}
+	os.Stderr = tmp
+	return *align, *output, text, bannerfile
 }
+
 /*
 * PrintErrorAndExit: print and exit program due to usage error
 * Prints the error message as is required by the client.
