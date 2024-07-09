@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -14,27 +13,36 @@ import (
 * CheckFlag: check if the correct flag has been passed
  */
 func CheckFlag() (string, string, string, string) {
-	output := flag.String("output", "", "output file name")
-	align := flag.String("align", "", "text alignment (left, right, center, justify)")
-
-	// silence flag errors
-	tmp := os.Stderr
-	os.Stderr = nil
-
-	flag.Usage = func() {
-		// PrintErrorAndExit()
-		fmt.Fprintf(os.Stdout, "\nUsage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n\n")
-		os.Exit(0)
+	
+	// Parse flags manually
+	output, align := "", ""
+	args := os.Args[1:]
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
+		if strings.HasPrefix(arg, "--") {
+			parts := strings.SplitN(arg[2:], "=", 2)
+			if len(parts) != 2 {
+				PrintErrorAndExit()
+			}
+			switch parts[0] {
+			case "output":
+				output = parts[1]
+			case "align":
+				align = parts[1]
+			default:
+				PrintErrorAndExit()
+			}
+		} else {
+			// Non-flag arguments
+			args = args[i:]
+			break
+		}
 	}
 
-	flag.Parse()
-	args := flag.Args()
-
-	// Check for correct number of arguments
+	// Validate arguments
 	if len(args) < 1 || len(args) > 2 {
 		PrintErrorAndExit()
 	}
-
 	text := args[0]
 	bannerfile := ""
 	if len(args) == 2 {
@@ -42,42 +50,23 @@ func CheckFlag() (string, string, string, string) {
 	}
 
 	// Validate align if provided
-	if *align != "" && *align != "left" && *align != "right" && *align != "center" && *align != "justify" {
+	if align != "" && align != "left" && align != "right" && align != "center" && align != "justify" {
 		PrintErrorAndExit()
 	}
 
-	// go run . --align=left hello
-	// go run . --output=any.txt hello
-	// => check if flag is '-align'
-	if len(os.Args) == 3 {
-		if (*align != "" && strings.HasPrefix(os.Args[1], "-align")) || (*output != "" && strings.HasPrefix(os.Args[1], "-output")) {
-			PrintErrorAndExit()
-		}
-	}
-
-	// go run . --align=left --output=any.txt hello [banner]
-	// go run . --output=any.txt --align=left hello [banner]
-	if len(os.Args) > 3 {
-		if (*align != "" && strings.HasPrefix(os.Args[1], "-align")) || (*output != "" && strings.HasPrefix(os.Args[2], "-output")) {
-			PrintErrorAndExit()
-		}
-		if (*output != "" && strings.HasPrefix(os.Args[1], "-output")) || (*align != "" && strings.HasPrefix(os.Args[2], "-align")) {
-			PrintErrorAndExit()
-		}
-	}
-
 	// Validate output if provided
-	if *output != "" {
-		if !strings.HasSuffix(*output, ".txt") || len(*output) < 5 {
+	if output != "" {
+		if !strings.HasSuffix(output, ".txt") || len(output) < 5 {
 			PrintErrorAndExit()
 		}
 		// Avoid altering the banner files
-		if (*output == "standard.txt" || *output == "shadow.txt" || *output == "thinkertoy.txt") || (strings.HasSuffix(*output, "/standard.txt") || strings.HasSuffix(*output, "/shadow.txt") || strings.HasSuffix(*output, "/thinkertoy.txt")) {
+		if (output == "standard.txt" || output == "shadow.txt" || output == "thinkertoy.txt") ||
+			(strings.HasSuffix(output, "/standard.txt") || strings.HasSuffix(output, "/shadow.txt") || strings.HasSuffix(output, "/thinkertoy.txt")) {
 			PrintErrorAndExit()
 		}
 	}
-	os.Stderr = tmp
-	return *align, *output, text, bannerfile
+
+	return align, output, text, bannerfile
 }
 
 /*
