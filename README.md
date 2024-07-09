@@ -91,6 +91,14 @@ go run . --output=test.txt "Hello" "shadow"
 cat -e test.txt
 ```
 
+We have also included a previous project that enabled the user to align the artistic representation on the terminal. The user can also optionally include the alignment flag when running the program. When you use the alignment option, when using the cat command, do not use the -e option as it will distort the output.
+
+```bash
+go run . --output=test.txt --align=right "Hello" "shadow"
+cat test.txt
+```
+
+Notice that the flags have to come before all the other arguments like the string to be decorated and the banner file. Additionally, the order with which the flag appears does not matter.
 
 ## Contributions
 
