@@ -38,11 +38,11 @@ func CreateMap(filename string) map[rune][]string {
 		}
 	}
 	if (len(asciiMap['A'])) != 8 {
-		fmt.Printf("the banner file %q does not contain the expected format\n", filename + ".txt")
+		fmt.Printf("the banner file %q does not contain the expected format\n", filename+".txt")
 		return nil
 	}
 	if len(asciiMap) == 0 || len(asciiMap) != 95 || numLinesInFile != 854 {
-		fmt.Printf("the banner file %q does not contain the expected format\n", filename + ".txt")
+		fmt.Printf("the banner file %q does not contain the expected format\n", filename+".txt")
 		return nil
 	}
 	return asciiMap

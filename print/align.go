@@ -7,7 +7,7 @@ import (
 	"ascii-art-output/utils"
 )
 
-func Align(input string, flag string, asciiMap map[rune][]string) string{
+func Align(input string, flag string, asciiMap map[rune][]string) string {
 	result := ""
 	inputSlice := strings.Split(input, "\n")
 	combinedWidth := 0
@@ -19,13 +19,13 @@ func Align(input string, flag string, asciiMap map[rune][]string) string{
 	// get terminal width
 	terminalWidth := utils.GetTerminalWidth()
 	if combinedWidth > terminalWidth {
-		result:=Normal(input, asciiMap)
+		result := Normal(input, asciiMap)
 		return result
 	}
 
 	for _, word := range inputSlice {
 		if word == "" {
-			result+="\n"
+			result += "\n"
 		} else {
 			for i := 0; i < 8; i++ {
 				lineOutput := ""
