@@ -1,5 +1,10 @@
 # Ascii Art Output
 
+Output
+
+![](images/cover.png)
+
+
 ## Description
 
 The initial project, ascii-art, was a project that was used to print text data in an artistic format. The follow-up project provided the user with an option to pick a font file to be used to display their characters. This proect was known as ascii-art-fs. There were a few font files, which we referred to as banner files. This files contained graphic representations of printable ascii characters. When the user needed to print their data on the console, the program would instead print the graphic representation of the same. 
@@ -83,6 +88,9 @@ clear
 go run . --output=test.txt "Hello"
 cat -e test.txt
 ```
+Output
+
+![](images/1.png)
 
 Additionally, to switch between banner files, you can provide an additional argument which has to be the last argument
 
@@ -90,6 +98,9 @@ Additionally, to switch between banner files, you can provide an additional argu
 go run . --output=test.txt "Hello" "shadow"
 cat -e test.txt
 ```
+Output
+
+![](images/2.png)
 
 We have also included a previous project that enabled the user to align the artistic representation on the terminal. The user can also optionally include the alignment flag when running the program. When you use the alignment option, when using the cat command, do not use the -e option as it will distort the output.
 
@@ -97,6 +108,11 @@ We have also included a previous project that enabled the user to align the arti
 go run . --output=test.txt --align=right "Hello" "shadow"
 cat test.txt
 ```
+
+Output
+
+![](images/3.png)
+
 
 Notice that the flags have to come before all the other arguments like the string to be decorated and the banner file. Additionally, the order with which the flag appears does not matter.
 
