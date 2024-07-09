@@ -3,6 +3,7 @@ package utils
 import (
 	"strings"
 	"testing"
+	
 )
 
 // test  for unsupported and unallowed characters
@@ -122,5 +123,84 @@ func Test_ValidBanner(t *testing.T) {
 				t.Errorf("ValidBanner() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+// Mock PrintErrorAndExit function for testing
+
+
+// // Mock PrintErrorAndExit function for testing
+// func MockPrintErrorAndExit() {
+// 	panic("MockPrintErrorAndExit")
+// }
+
+func TestCheckFlag(t *testing.T) {
+	// // Override PrintErrorAndExit for testing
+	// originalPrintErrorAndExit := PrintErrorAndExit
+	// PrintErrorAndExit = MockPrintErrorAndExit
+	// defer func() { PrintErrorAndExit = originalPrintErrorAndExit }()
+
+	tests := []struct {
+		name           string
+		args           []string
+		expectedAlign  string
+		expectedOutput string
+		expectedText   string
+		expectedBanner string
+	}{
+		{
+			name:           "Valid input with align and output",
+			args:           []string{"program", "--align=center", "--output=file.txt", "Hello", "standard"},
+			expectedAlign:  "center",
+			expectedOutput: "file.txt",
+			expectedText:   "Hello",
+			expectedBanner: "standard",
+		},
+		{
+			name:           "Valid input with only text",
+			args:           []string{"program", "Hello"},
+			expectedAlign:  "",
+			expectedOutput: "",
+			expectedText:   "Hello",
+			expectedBanner: "",
+		},
+		{
+			name: "Invalid align value",
+			args: []string{"program", "--align=invalid", "Hello"},
+		},
+		{
+			name: "Invalid output filename",
+			args: []string{"program", "--output=file", "Hello"},
+		},
+		{
+			name: "Duplicate align flag",
+			args: []string{"program", "--align=left", "--align=right", "Hello"},
+		},
+		{
+			name: "Duplicate output flag",
+			args: []string{"program", "--output=file1.txt", "--output=file2.txt", "Hello"},
+		},
+		{
+			name: "Invalid flag format",
+			args: []string{"program", "--align left", "Hello"},
+		},
+		{
+			name: "No text provided",
+			args: []string{"program", "--align=left"},
+		},
+		{
+			name: "Too many arguments",
+			args: []string{"program", "Hello", "standard", "extra"},
+		},
+		{
+			name: "Protected output filename",
+			args: []string{"program", "--output=standard.txt", "Hello"},
+		},
+	}
+
+	for _, tt := range tests {
+		if _, _,got,_ := CheckFlag(tt.args); got != tt.expectedText {
+			t.Errorf("CheckFlag() = %v, want %v", got, tt.expectedText)
+		}
 	}
 }
