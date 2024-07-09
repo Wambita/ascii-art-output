@@ -23,7 +23,7 @@ func CheckFlag() (string, string, string, string) {
 
 	flag.Usage = func() {
 		// PrintErrorAndExit()
-		fmt.Fprintf(os.Stdout , "\nUsage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n\n")
+		fmt.Fprintf(os.Stdout, "\nUsage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n\n")
 		os.Exit(0)
 	}
 
@@ -72,7 +72,7 @@ func CheckFlag() (string, string, string, string) {
 			PrintErrorAndExit()
 		}
 		// Avoid altering the banner files
-		if *output == "standard.txt" || *output == "shadow.txt" || *output == "thinkertoy.txt" {
+		if (*output == "standard.txt" || *output == "shadow.txt" || *output == "thinkertoy.txt") || (strings.HasSuffix(*output, "/standard.txt") || strings.HasSuffix(*output, "/shadow.txt") || strings.HasSuffix(*output, "/thinkertoy.txt")) {
 			PrintErrorAndExit()
 		}
 	}
@@ -86,11 +86,9 @@ func CheckFlag() (string, string, string, string) {
 * -[ DO not change the error message ]-
  */
 func PrintErrorAndExit() {
-	fmt.Println(`
-Usage: go run . [OPTION] [STRING] [BANNER]
+	fmt.Println(`Usage: go run . [OPTION] [STRING] [BANNER]
 
-EX: go run . --output=<fileName.txt> something standard
-	`)
+EX: go run . --output=<fileName.txt> something standard`)
 	os.Exit(0)
 }
 
