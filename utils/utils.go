@@ -13,10 +13,10 @@ import (
 * CheckFlag: check if the correct flag has been passed
  */
 func CheckFlag() (string, string, string, string) {
-	
 	// Parse flags manually
 	output, align := "", ""
 	args := os.Args[1:]
+	var hasOutput, hasAlign bool
 	for i := 0; i < len(args); i++ {
 		arg := args[i]
 		if strings.HasPrefix(arg, "--") {
@@ -26,9 +26,19 @@ func CheckFlag() (string, string, string, string) {
 			}
 			switch parts[0] {
 			case "output":
-				output = parts[1]
+				if hasOutput {
+					PrintErrorAndExit()
+				} else {
+					output = parts[1]
+					hasOutput = true
+				}
 			case "align":
-				align = parts[1]
+				if hasAlign {
+					PrintErrorAndExit()
+				} else {
+					align = parts[1]
+					hasAlign = true
+				}
 			default:
 				PrintErrorAndExit()
 			}
