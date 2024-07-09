@@ -53,6 +53,10 @@ func CheckFlag(arr []string) (string, string, string, string) {
 	if len(args) < 1 || len(args) > 2 {
 		PrintErrorAndExit()
 	}
+
+	if len(args) == 1 && (strings.HasPrefix(args[0], "--output=") || (strings.HasPrefix(args[0], "--align="))) {
+		PrintErrorAndExit()
+	}
 	text := args[0]
 	bannerfile := ""
 	if len(args) == 2 {
