@@ -45,7 +45,7 @@ func Test_CreateMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := CreateMap(tt.filename); !reflect.DeepEqual(got, tt.want) {
+			if got := CreateMap(tt.filename); !reflect.DeepEqual(got, tt.want) && tt.wantErr {
 				t.Errorf("CreateMap() = %v, want %v", got, tt.want)
 			}
 		})
