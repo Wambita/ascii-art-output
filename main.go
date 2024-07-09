@@ -18,7 +18,7 @@ import (
 * + output content accordingly and display results to user
  */
 func main() {
-	align, output, input, bannerfile := utils.CheckFlag()
+	align, output, input, bannerfile := utils.CheckFlag(os.Args)
 
 	if validInput, offendingCharacter := utils.IsValidInput(input); !validInput {
 		log.Fatalf("Error: input contains unallowed character: %q\n", offendingCharacter)

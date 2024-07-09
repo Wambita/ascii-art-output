@@ -12,10 +12,10 @@ import (
 /*
 * CheckFlag: check if the correct flag has been passed
  */
-func CheckFlag() (string, string, string, string) {
+func CheckFlag(arr []string) (string, string, string, string) {
 	// Parse flags manually
 	output, align := "", ""
-	args := os.Args[1:]
+	args := arr[1:]
 	var hasOutput, hasAlign bool
 	for i := 0; i < len(args); i++ {
 		arg := args[i]
