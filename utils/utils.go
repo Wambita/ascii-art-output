@@ -13,8 +13,13 @@ import (
 * CheckFlag: check if the correct flag has been passed
  */
 func CheckFlag(arr []string) (string, string, string, string) {
+	for _, v := range arr {
+		if v == "--output=" || v == "--align=" {
+			PrintErrorAndExit()
+		}
+	}
 	// Parse flags manually
-	//flag package brought about bugs
+	// flag package brought about bugs
 	output, align := "", ""
 	args := arr[1:]
 	var hasOutput, hasAlign bool
@@ -55,11 +60,11 @@ func CheckFlag(arr []string) (string, string, string, string) {
 		PrintErrorAndExit()
 	}
 
-	//usage 	`go run . --output=hello.txt`` or `go run . --align=left``
+	// usage 	`go run . --output=hello.txt`` or `go run . --align=left``
 	if len(args) == 1 && (strings.HasPrefix(args[0], "--output=") || (strings.HasPrefix(args[0], "--align="))) {
 		PrintErrorAndExit()
 	}
-	//string and banner file passed
+	// string and banner file passed
 	text := args[0]
 	bannerfile := ""
 	if len(args) == 2 {

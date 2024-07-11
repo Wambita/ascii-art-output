@@ -4,13 +4,16 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path"
 )
 
 /*
 * CreateMap: creates a mapping from the 95 printable ascii characters to their art representation from a banner file
  */
 func CreateMap(filename string) map[rune][]string {
-	file, err := os.Open(filename + ".txt")
+	rootDir, err := os.Getwd()
+	banner := path.Join(rootDir, "bannerfiles", filename)
+	file, err := os.Open(banner + ".txt")
 	if err != nil {
 		fmt.Printf("Error opening file %q\n", filename)
 		return nil
